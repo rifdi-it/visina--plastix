@@ -714,31 +714,21 @@ function renderPriceRates() {
         </div>`;
     });
 }
-        function renderMediaGallery() {
-            const container = document.getElementById('mediaGalleryGrid');
-            container.innerHTML = state.dailyMedia.map(media => `
-                <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition">
-                    ${media.type === 'image' ? `
-                        <img src="${media.url}" alt="${media.title}" class="w-full h-64 object-cover">
-                    ` : `
-                        <div class="relative w-full h-64 bg-gray-900 flex items-center justify-center">
-                            <i data-lucide="play" class="text-white w-16 h-16 z-10"></i>
-                            <img src="${media.url}" alt="${media.title}" class="absolute inset-0 w-full h-full object-cover opacity-50">
-                        </div>
-                    `}
-                    <div class="p-4">
-                        <h3 class="text-lg font-bold text-gray-800 mb-2">${media.title}</h3>
-                        <div class="flex items-center justify-between text-sm text-gray-600">
-                            <span class="flex items-center gap-1">
-                                <i data-lucide="calendar" class="w-4 h-4"></i> ${media.date}
-                            </span>
-                            <span class="text-green-600 font-medium capitalize">${media.type}</span>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-            lucide.createIcons();
-        }
+    function renderMediaGallery() {
+    const grid = document.getElementById('mediaGalleryGrid');
+    grid.innerHTML = '';
+
+    state.dailyMedia.forEach(item => {
+        grid.innerHTML += `
+        <div class="bg-white rounded-xl overflow-hidden shadow">
+            <img src="${item.url}" class="w-full h-48 object-cover">
+            <div class="p-4">
+                <h4 class="font-bold">${item.title}</h4>
+                <p class="text-sm text-gray-500">${item.date}</p>
+            </div>
+        </div>`;
+    });
+}
 
         // Inner Admin Component Renderers
         function renderAdminControlsLists() {
