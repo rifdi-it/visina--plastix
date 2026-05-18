@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Recycle Factory</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        .modal-blur {
+            backdrop-filter: blur(4px);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-white text-gray-800 antialiased">
+
+    <header class="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
+        <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="recycle" class="text-green-600 w-8 h-8"></i>
+                    <span class="font-bold text-xl text-gray-800">Green Recycle Factory</span>
+                </div>
+                <span id="adminBadge" class="hidden bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
+                    Admin Mode
+                </span>
+            </div>
+
+            <nav class="hidden md:flex gap-6 items-center">
+                <a href="#home" class="text-gray-700 hover:text-green-600 transition">Home</a>
+                <a href="#about" class="text-gray-700 hover:text-green-600 transition">About Us</a>
+                <a href="#services" class="text-gray-700 hover:text-green-600 transition">Services</a>
+                <a href="#process" class="text-gray-700 hover:text-green-600 transition">Process</a>
+                <a href="#prices" class="text-gray-700 hover:text-green-600 transition">Prices</a>
+                <a href="#contact" class="text-gray-700 hover:text-green-600 transition">Contact</a>
+                <button id="loginBtn" onclick="toggleLoginModal(true)" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition flex items-center gap-2">
+                    <i data-lucide="log-in" class="w-[18px] h-[18px]"></i>
+                    <span>Admin Login</span>
+                </button>
+                <button id="logoutBtn" onclick="handleLogout()" class="hidden bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition flex items-center gap-2">
+                    <i data-lucide="log-out" class="w-[18px] h-[18px]"></i>
+                    <span>Logout</span>
+                </button>
+            </nav>
+
+            <button class="md:hidden text-gray-700 focus:outline-none" onclick="toggleMobileMenu()">
+                <i id="menuIcon" data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t">
+            <nav class="flex flex-col p-4 gap-3">
+                <a href="#home" onclick="toggleMobileMenu()" class="text-gray-700 hover:text-green-600 transition py-2">Home</a>
+                <a href="#about" onclick="toggleMobileMenu()" class="text-gray-700 hover:text-green-600 transition py-2">About Us</a>
+                <a href="#services" onclick="toggleMobileMenu()" class="text-gray-700 hover:text-green-600 transition py-2">Services</a>
+                <a href="#process" onclick="toggleMobileMenu()" class="text-gray-700 hover:text-green-600 transition py-2">Process</a>
+                <a href="#prices" onclick="toggleMobileMenu()" class="text-gray-700 hover:text-green-600 transition py-2">Prices</a>
+                <a href="#contact" onclick="toggleMobileMenu()" class="text-gray-700 hover:text-green-600 transition py-2">Contact</a>
+                <button id="loginBtnMobile" onclick="toggleLoginModal(true); toggleMobileMenu()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition flex items-center gap-2 justify-center">
+                    <i data-lucide="log-in" class="w-[18px] h-[18px]"></i>
+                    <span>Admin Login</span>
+                </button>
+                <button id="logoutBtnMobile" onclick="handleLogout(); toggleMobileMenu()" class="hidden bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition flex items-center gap-2 justify-center">
+                    <i data-lucide="log-out" class="w-[18px] h-[18px]"></i>
+                    <span>Logout</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home" class="pt-20 min-h-screen flex items-center bg-gradient-to-br from-green-50 to-green-100">
+        <div class="container mx-auto px-4 py-20">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-6">Plastic Waste to Green Future</h1>
+                    <p class="text-xl text-gray-600 mb-8">We recycle plastic waste into reusable eco-friendly products, helping create a sustainable future for generations to come.</p>
+                    <div class="flex gap-4 flex-wrap">
+                        <a href="#about" class="bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700 transition flex items-center gap-2 font-medium">
+                            <span>Learn More</span> <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#contact" class="bg-white text-green-600 px-8 py-3 rounded-lg border-2 border-green-600 hover:bg-green-50 transition font-medium">Contact Us</a>
+                    </div>
+                </div>
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1679998873820-fb46bb66dfe2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080" alt="Recycling facility" class="rounded-2xl shadow-2xl w-full object-cover h-96">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">About Us</h2>
+                <div class="w-20 h-1 bg-green-600 mx-auto"></div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <img src="https://images.unsplash.com/photo-1777464375799-768774f30542?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080" alt="Factory interior" class="rounded-lg shadow-lg w-full h-96 object-cover">
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Leading the Way in Sustainable Recycling</h3>
+                    <p class="text-gray-600 mb-4">With over 15 years of experience in plastic recycling, we have established ourselves as a trusted name in environmental conservation and sustainable manufacturing.</p>
+                    <p class="text-gray-600 mb-6">Our mission is to reduce plastic waste and create a circular economy where every piece of plastic gets a second life. We combine cutting-edge technology with environmentally responsible practices to deliver high-quality recycled products.</p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="check-circle" class="text-green-600 flex-shrink-0 mt-1 w-6 h-6"></i>
+                            <div>
+                                <h4 class="font-bold text-gray-800">15+ Years</h4>
+                                <p class="text-gray-600">Experience</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="check-circle" class="text-green-600 flex-shrink-0 mt-1 w-6 h-6"></i>
+                            <div>
+                                <h4 class="font-bold text-gray-800">50,000+ Tons</h4>
+                                <p class="text-gray-600">Recycled Annually</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="check-circle" class="text-green-600 flex-shrink-0 mt-1 w-6 h-6"></i>
+                            <div>
+                                <h4 class="font-bold text-gray-800">100% Eco</h4>
+                                <p class="text-gray-600">Friendly Process</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="check-circle" class="text-green-600 flex-shrink-0 mt-1 w-6 h-6"></i>
+                            <div>
+                                <h4 class="font-bold text-gray-800">ISO Certified</h4>
+                                <p class="text-gray-600">Quality Standards</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Our Services</h2>
+                <div class="w-20 h-1 bg-green-600 mx-auto mb-4"></div>
+                <p class="text-gray-600 max-w-2xl mx-auto">Comprehensive recycling solutions tailored to meet your environmental goals</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition">
+                    <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                        <i data-lucide="trash-2" class="text-green-600 w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Plastic Collection</h3>
+                    <p class="text-gray-600">Efficient collection services for industrial and household plastic waste with scheduled pickups.</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition">
+                    <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                        <i data-lucide="recycle" class="text-green-600 w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Recycling Process</h3>
+                    <p class="text-gray-600">State-of-the-art recycling technology that transforms waste into high-quality raw materials.</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition">
+                    <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                        <i data-lucide="factory" class="text-green-600 w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Industrial Management</h3>
+                    <p class="text-gray-600">Specialized solutions for large-scale industrial plastic waste with custom processing.</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition">
+                    <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                        <i data-lucide="package" class="text-green-600 w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Eco Manufacturing</h3>
+                    <p class="text-gray-600">Production of eco-friendly products from 100% recycled plastic materials.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="process" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Our Recycling Process</h2>
+                <div class="w-20 h-1 bg-green-600 mx-auto mb-4"></div>
+                <p class="text-gray-600 max-w-2xl mx-auto">A systematic 5-step process to transform plastic waste into valuable resources</p>
+            </div>
+            <div class="max-w-4xl mx-auto space-y-8">
+                <div class="flex gap-6 items-start">
+                    <div class="bg-green-600 text-white w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-xl">1</div>
+                    <div class="flex-1">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2 flex items-center gap-3">
+                            <i data-lucide="trash-2" class="text-green-600 w-7 h-7"></i> Plastic Collection
+                        </h3>
+                        <p class="text-gray-600">We collect plastic waste from various sources including households, industries, and commercial establishments through our extensive network.</p>
+                    </div>
+                </div>
+                <div class="flex gap-6 items-start">
+                    <div class="bg-green-600 text-white w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-xl">2</div>
+                    <div class="flex-1">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2 flex items-center gap-3">
+                            <i data-lucide="package" class="text-green-600 w-7 h-7"></i> Sorting
+                        </h3>
+                        <p class="text-gray-600">Advanced sorting technology separates plastics by type, color, and quality to ensure optimal recycling outcomes.</p>
+                    </div>
+                </div>
+                <div class="flex gap-6 items-start">
+                    <div class="bg-green-600 text-white w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-xl">3</div>
+                    <div class="flex-1">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2 flex items-center gap-3">
+                            <i data-lucide="droplets" class="text-green-600 w-7 h-7"></i> Cleaning
+                        </h3>
+                        <p class="text-gray-600">Thorough washing and decontamination process removes impurities, labels, and adhesives using eco-friendly methods.</p>
+                    </div>
+                </div>
+                <div class="flex gap-6 items-start">
+                    <div class="bg-green-600 text-white w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-xl">4</div>
+                    <div class="flex-1">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2 flex items-center gap-3">
+                            <i data-lucide="flame" class="text-green-600 w-7 h-7"></i> Melting
+                        </h3>
+                        <p class="text-gray-600">Cleaned plastic is melted at controlled temperatures and transformed into molten form ready for reshaping.</p>
+                    </div>
+                </div>
+                <div class="flex gap-6 items-start">
+                    <div class="bg-green-600 text-white w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-xl">5</div>
+                    <div class="flex-1">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2 flex items-center gap-3">
+                            <i data-lucide="leaf" class="text-green-600 w-7 h-7"></i> Product Making
+                        </h3>
+                        <p class="text-gray-600">The recycled plastic is molded into new products including bottles, sheets, bags, and other useful items.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Our Products</h2>
+                <div class="w-20 h-1 bg-green-600 mx-auto mb-4"></div>
+                <p class="text-gray-600 max-w-2xl mx-auto">High-quality recycled products for various industries</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition">
+                    <img src="https://images.unsplash.com/photo-1669384537216-24740a56a2d5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080" alt="Recycled bottles" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Recycled Bottles</h3>
+                        <p class="text-gray-600 mb-4">100% recycled PET bottles for beverages and liquid products, meeting international quality standards.</p>
+                        <div class="flex items-center gap-2 text-green-600 font-medium">
+                            <i data-lucide="leaf" class="w-5 h-5"></i> <span>Eco-Friendly</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition">
+                    <img src="https://images.unsplash.com/photo-1730584475392-b633246fd486?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080" alt="Plastic sheets" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Plastic Sheets</h3>
+                        <p class="text-gray-600 mb-4">Durable recycled plastic sheets for construction, packaging, and industrial applications.</p>
+                        <div class="flex items-center gap-2 text-green-600 font-medium">
+                            <i data-lucide="leaf" class="w-5 h-5"></i> <span>Eco-Friendly</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition">
+                    <img src="https://images.unsplash.com/photo-1760009449712-09befce78964?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080" alt="Eco-friendly bags" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Eco-Friendly Bags</h3>
+                        <p class="text-gray-600 mb-4">Reusable bags made from recycled plastic, perfect for shopping and daily use.</p>
+                        <div class="flex items-center gap-2 text-green-600 font-medium">
+                            <i data-lucide="leaf" class="w-5 h-5"></i> <span>Eco-Friendly</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="prices" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Today's Price Rates</h2>
+                <div class="w-20 h-1 bg-green-600 mx-auto mb-4"></div>
+                <p class="text-gray-600 max-w-2xl mx-auto">Updated daily rates for different types of plastic materials</p>
+                <div class="flex items-center justify-center gap-2 mt-4 text-gray-500">
+                    <i data-lucide="calendar" class="w-4 h-4"></i>
+                    <span>Last Updated: Today</span>
+                </div>
+            </div>
+            
+            <div id="priceRatesGrid" class="max-w-4xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                </div>
+
+            <div id="updatePricesContainer" class="hidden text-center mt-8">
+                <button onclick="toggleAdminDashboard(true, 'prices')" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition shadow-md">
+                    Update Prices Table
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Daily Work Gallery</h2>
+                <div class="w-20 h-1 bg-green-600 mx-auto mb-4"></div>
+                <p class="text-gray-600 max-w-2xl mx-auto">See our daily operations and recycling processes in action</p>
+            </div>
+
+            <div id="mediaGalleryGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                </div>
+
+            <div id="manageGalleryContainer" class="hidden text-center mt-8">
+                <button onclick="toggleAdminDashboard(true, 'gallery')" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition shadow-md">
+                    Manage Gallery Content
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Contact Us</h2>
+                <div class="w-20 h-1 bg-green-600 mx-auto mb-4"></div>
+                <p class="text-gray-600 max-w-2xl mx-auto">Get in touch with us for any inquiries or recycling needs</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6">Get In Touch</h3>
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                          <div class="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
+                              <i data-lucide="map-pin" class="text-green-600 w-6 h-6"></i>
+                          </div>
+                          <div>
+                              <h4 class="font-bold text-gray-800 mb-1">Address</h4>
+                              <p class="text-gray-600">123 Green Street, Eco Park<br>Tamil Nadu 600001, India</p>
+                          </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                          <div class="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
+                              <i data-lucide="phone" class="text-green-600 w-6 h-6"></i>
+                          </div>
+                          <div>
+                              <h4 class="font-bold text-gray-800 mb-1">Phone</h4>
+                              <p class="text-gray-600">+91 98765 43210</p>
+                              <p class="text-gray-600">+91 98765 43211</p>
+                          </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                          <div class="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
+                              <i data-lucide="mail" class="text-green-600 w-6 h-6"></i>
+                          </div>
+                          <div>
+                              <h4 class="font-bold text-gray-800 mb-1">Email</h4>
+                              <p class="text-gray-600">info@greenrecycle.com</p>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <form onsubmit="handleContactSubmit(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-gray-700 mb-2 font-medium">Name</label>
+                            <input type="text" id="contactName" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-green-600" placeholder="Your name">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2 font-medium">Email</label>
+                            <input type="email" id="contactEmail" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-green-600" placeholder="your@email.com">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2 font-medium">Message</label>
+                            <textarea id="contactMessage" required rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-green-600" placeholder="Your message"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition font-medium shadow-sm">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <i data-lucide="recycle" class="text-green-500 w-7 h-7"></i>
+                        <span class="font-bold text-lg">Green Recycle Factory</span>
+                    </div>
+                    <p class="text-gray-400">Leading the way in sustainable plastic recycling since 2009.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4 text-white">Quick Links</h4>
+                    <div class="space-y-2 flex flex-col items-start">
+                        <a href="#home" class="text-gray-400 hover:text-green-500 transition">Home</a>
+                        <a href="#about" class="text-gray-400 hover:text-green-500 transition">About Us</a>
+                        <a href="#services" class="text-gray-400 hover:text-green-500 transition">Services</a>
+                        <a href="#process" class="text-gray-400 hover:text-green-500 transition">Process</a>
+                        <a href="#prices" class="text-gray-400 hover:text-green-500 transition">Prices</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4 text-white">Services</h4>
+                    <div class="space-y-2 text-gray-400">
+                        <p>Plastic Collection</p>
+                        <p>Recycling Processing</p>
+                        <p>Waste Logistics</p>
+                        <p>Product Sourcing</p>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4 text-white">Contact</h4>
+                    <div class="space-y-2 text-gray-400">
+                        <p>+91 98765 43210</p>
+                        <p>info@greenrecycle.com</p>
+                        <p>Tamil Nadu, India</p>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+                <p>&copy; 2026 Green Recycle Factory. All rights reserved. | Built with eco-care.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="loginModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 modal-blur">
+        <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl border border-gray-100">
+            <div class="p-6 border-b flex justify-between items-center bg-green-50">
+                <h3 class="font-bold text-xl text-gray-800 flex items-center gap-2">System Authentication</h3>
+                <button onclick="toggleLoginModal(false)" class="text-gray-500 hover:text-red-500 transition">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <form onsubmit="handleLoginSubmit(event)" class="p-6 space-y-4">
+                <div>
+                    <label class="block text-gray-700 mb-2 font-medium">Username</label>
+                    <div class="relative">
+                        <i data-lucide="user" class="absolute left-3 top-3.5 text-gray-400 w-4 h-4"></i>
+                        <input type="text" id="adminUser" required class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-green-600" placeholder="Enter admin username">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-2 font-medium">Password</label>
+                    <div class="relative">
+                        <i data-lucide="lock" class="absolute left-3 top-3.5 text-gray-400 w-4 h-4"></i>
+                        <input type="password" id="adminPass" required class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-green-600" placeholder="Enter secure key">
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition font-medium shadow-md">
+                    Authenticate
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div id="adminDashboard" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4 modal-blur">
+        <div class="bg-white rounded-2xl w-full max-w-4xl h-[85vh] flex flex-col overflow-hidden shadow-2xl border border-gray-100">
+            <div class="p-6 border-b flex justify-between items-center bg-gray-900 text-white">
+                <div>
+                    <h2 class="text-2xl font-bold">Control Terminal</h2>
+                    <p class="text-sm text-green-400">Authorized Access Only</p>
+                </div>
+                <button onclick="toggleAdminDashboard(false)" class="text-gray-400 hover:text-white transition">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <div class="flex border-b bg-gray-50 px-6 gap-4">
+                <button id="tabPricesBtn" onclick="switchDashboardTab('prices')" class="py-4 font-medium transition border-b-2 px-2 border-green-600 text-green-600">
+                    Material Pricing
+                </button>
+                <button id="tabGalleryBtn" onclick="switchDashboardTab('gallery')" class="py-4 font-medium transition border-b-2 px-2 border-transparent text-gray-500">
+                    Work Gallery Manager
+                </button>
+            </div>
+
+            <div class="flex-1 overflow-y-auto p-6 bg-white">
+                <div id="panelPrices" class="grid md:grid-cols-3 gap-8">
+                    <form onsubmit="addNewPriceRate(event)" class="md:col-span-1 bg-gray-50 p-5 rounded-xl border space-y-4 h-fit">
+                        <h3 class="font-bold text-lg text-gray-800 flex items-center gap-2">
+                            <i data-lucide="plus" class="text-green-600 w-5 h-5"></i> New Valuation Rate
+                        </h3>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-600 mb-1">Material Classification</label>
+                            <input type="text" id="newMatName" required placeholder="e.g. Polycarbonate" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green-600 bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-600 mb-1">Rate Value (₹)</label>
+                            <input type="number" id="newMatPrice" required placeholder="45" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green-600 bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-600 mb-1">Functional Unit</label>
+                            <input type="text" id="newMatUnit" required value="per kg" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green-600 bg-white">
+                        </div>
+                        <button type="submit" class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition font-medium shadow-sm">
+                            Add Rate Map
+                        </button>
+                    </form>
+                    <div class="md:col-span-2 space-y-3">
+                        <h3 class="font-bold text-lg text-gray-800">Current Market Index Values</h3>
+                        <div id="adminPriceList" class="border rounded-xl overflow-hidden divide-y">
+                            </div>
+                    </div>
+                </div>
+
+                <div id="panelGallery" class="hidden grid md:grid-cols-3 gap-8">
+                    <form onsubmit="addNewMediaItem(event)" class="md:col-span-1 bg-gray-50 p-5 rounded-xl border space-y-4 h-fit">
+                        <h3 class="font-bold text-lg text-gray-800 flex items-center gap-2">
+                            <i data-lucide="plus" class="text-green-600 w-5 h-5"></i> Insert Media Document
+                        </h3>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-600 mb-1">Title Descriptor</label>
+                            <input type="text" id="newMediaTitle" required placeholder="Processing Block" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green-600 bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-600 mb-1">Resource Link URL</label>
+                            <input type="url" id="newMediaUrl" required placeholder="https://images.unsplash.com/..." class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green-600 bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-600 mb-1">Asset Schema Type</label>
+                            <select id="newMediaType" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-green-600 bg-white">
+                                <option value="image">Static Image</option>
+                                <option value="video">Motion Video Asset</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition font-medium shadow-sm">
+                            Publish Resource
+                        </button>
+                    </form>
+                    <div class="md:col-span-2 space-y-3">
+                        <h3 class="font-bold text-lg text-gray-800">Media Vault Array</h3>
+                        <div id="adminMediaList" class="grid sm:grid-cols-2 gap-4">
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button id="floatingAdminBtn" onclick="toggleAdminDashboard(true, 'prices')" class="hidden fixed bottom-8 right-8 bg-green-600 text-white p-4 rounded-full shadow-2xl hover:bg-green-700 transition z-40 flex items-center gap-2">
+        <i data-lucide="package" class="w-6 h-6"></i>
+        <span class="hidden md:inline font-medium">Admin Panel</span>
+    </button>
+
+    <script>
+        // Application Global Data Registries
+        let state = {
+            isAuthenticated: false,
+            mobileMenuOpen: false,
+            priceRates: [
+                { material: 'PET Bottles', price: '45', unit: 'per kg' },
+                { material: 'HDPE Plastic', price: '38', unit: 'per kg' },
+                { material: 'PVC Plastic', price: '35', unit: 'per kg' },
+                { material: 'LDPE Plastic', price: '30', unit: 'per kg' },
+                { material: 'PP Plastic', price: '42', unit: 'per kg' },
+                { material: 'PS Plastic', price: '28', unit: 'per kg' }
+            ],
+            dailyMedia: [
+                { id: '1', type: 'image', url: 'https://images.unsplash.com/photo-1679998873820-fb46bb66dfe2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080', title: 'Daily Sorting Process', date: new Date().toLocaleDateString() },
+                { id: '2', type: 'image', url: 'https://images.unsplash.com/photo-1777464375799-768774f30542?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080', title: 'Quality Check Department', date: new Date().toLocaleDateString() },
+                { id: '3', type: 'image', url: 'https://images.unsplash.com/photo-1730584475392-b633246fd486?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080', title: 'Production Line Today', date: new Date().toLocaleDateString() }
+            ]
+        };
+
+        // Initialize App Interface Components
+        window.addEventListener('DOMContentLoaded', () => {
+            renderPriceRates();
+            renderMediaGallery();
+            lucide.createIcons(); // Instantiates vector SVGs dynamically
+        });
+
+        // Responsive Mobile Bar Drawer Controller
+        function toggleMobileMenu() {
+            state.mobileMenuOpen = !state.mobileMenuOpen;
+            const menu = document.getElementById('mobileMenu');
+            const icon = document.getElementById('menuIcon');
+            
+            if (state.mobileMenuOpen) {
+                menu.classList.remove('hidden');
+                icon.setAttribute('data-lucide', 'x');
+            } else {
+                menu.classList.add('hidden');
+                icon.setAttribute('data-lucide', 'menu');
+            }
+            lucide.createIcons();
+        }
+
+        // Base Contact Processing Form
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            alert('Thank you for contacting us! We will get back to you soon.');
+            document.getElementById('contactName').value = '';
+            document.getElementById('contactEmail').value = '';
+            document.getElementById('contactMessage').value = '';
+        }
+
+        // Modal Component State Interfaces
+        function toggleLoginModal(show) {
+            const modal = document.getElementById('loginModal');
+            if (show) {
+                modal.classList.remove('hidden');
+            } else {
+                modal.classList.add('hidden');
+                document.getElementById('adminUser').value = '';
+                document.getElementById('adminPass').value = '';
+            }
+        }
+
+        function toggleAdminDashboard(show, initialTab = 'prices') {
+            const dashboard = document.getElementById('adminDashboard');
+            if (show) {
+                dashboard.classList.remove('hidden');
+                switchDashboardTab(initialTab);
+                renderAdminControlsLists();
+            } else {
+                dashboard.classList.add('hidden');
+            }
+        }
+
+        // Switch Tabs inside the Control Dashboard Viewports
+        function switchDashboardTab(tab) {
+            const pPrices = document.getElementById('panelPrices');
+            const pGallery = document.getElementById('panelGallery');
+            const btnPrices = document.getElementById('tabPricesBtn');
+            const btnGallery = document.getElementById('tabGalleryBtn');
+
+            if (tab === 'prices') {
+                pPrices.classList.remove('hidden');
+                pGallery.classList.add('hidden');
+                btnPrices.className = "py-4 font-medium transition border-b-2 px-2 border-green-600 text-green-600";
+                btnGallery.className = "py-4 font-medium transition border-b-2 px-2 border-transparent text-gray-500";
+            } else {
+                pPrices.classList.add('hidden');
+                pGallery.classList.remove('hidden');
+                btnPrices.className = "py-4 font-medium transition border-b-2 px-2 border-transparent text-gray-500";
+                btnGallery.className = "py-4 font-medium transition border-b-2 px-2 border-green-600 text-green-600";
+            }
+        }
+
+        // Secure Evaluation Authentication Core Entry Processing
+        function handleLoginSubmit(e) {
+            e.preventDefault();
+            const user = document.getElementById('adminUser').value;
+            const pass = document.getElementById('adminPass').value;
+
+            if (user === 'admin' && pass === 'admin123') {
+                state.isAuthenticated = true;
+                toggleLoginModal(false);
+                applyAuthenticationLayoutState();
+                toggleAdminDashboard(true, 'prices');
+            } else {
+                alert('Invalid credentials! Try: admin / admin123');
+            }
+        }
+
+        function handleLogout() {
+            state.isAuthenticated = false;
+            applyAuthenticationLayoutState();
+            toggleAdminDashboard(false);
+        }
+
+        // Dynamically Update Page UI Components Based on Authentication
+        function applyAuthenticationLayoutState() {
+            const els = {
+                badge: document.getElementById('adminBadge'),
+                lBtn: document.getElementById('loginBtn'),
+                lBtnMob: document.getElementById('loginBtnMobile'),
+                oBtn: document.getElementById('logoutBtn'),
+                oBtnMob: document.getElementById('logoutBtnMobile'),
+                pricesUp: document.getElementById('updatePricesContainer'),
+                galleryUp: document.getElementById('manageGalleryContainer'),
+                floatBtn: document.getElementById('floatingAdminBtn')
+            };
+
+            if (state.isAuthenticated) {
+                els.badge.classList.remove('hidden');
+                els.lBtn.classList.add('hidden');
+                els.lBtnMob.classList.add('hidden');
+                els.oBtn.classList.remove('hidden');
+                els.oBtnMob.classList.remove('hidden');
+                els.pricesUp.classList.remove('hidden');
+                els.galleryUp.classList.remove('hidden');
+                els.floatBtn.classList.remove('hidden');
+            } else {
+                els.badge.classList.add('hidden');
+                els.lBtn.classList.remove('hidden');
+                els.lBtnMob.classList.remove('hidden');
+                els.oBtn.classList.add('hidden');
+                els.oBtnMob.classList.add('hidden');
+                els.pricesUp.classList.add('hidden');
+                els.galleryUp.classList.add('hidden');
+                els.floatBtn.classList.add('hidden');
+            }
+        }
+
+        // Public Data Model Rendering Pipelines
+        function renderPriceRates() {
+            const container = document.getElementById('priceRatesGrid');
+            container.innerHTML = state.priceRates.map(rate => `
+                <div class="bg-gradient-to-br from-green-50 to-white border-2 border-green-100 rounded-xl p-6 hover:shadow-lg transition">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="bg-green-100 p-3 rounded-lg">
+                            <i data-lucide="dollar-sign" class="text-green-600 w-7 h-7"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">${rate.material}</h3>
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-3xl font-bold text-green-600">₹${rate.price}</span>
+                        <span class="text-gray-600">${rate.unit}</span>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function renderMediaGallery() {
+            const container = document.getElementById('mediaGalleryGrid');
+            container.innerHTML = state.dailyMedia.map(media => `
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition">
+                    ${media.type === 'image' ? `
+                        <img src="${media.url}" alt="${media.title}" class="w-full h-64 object-cover">
+                    ` : `
+                        <div class="relative w-full h-64 bg-gray-900 flex items-center justify-center">
+                            <i data-lucide="play" class="text-white w-16 h-16 z-10"></i>
+                            <img src="${media.url}" alt="${media.title}" class="absolute inset-0 w-full h-full object-cover opacity-50">
+                        </div>
+                    `}
+                    <div class="p-4">
+                        <h3 class="text-lg font-bold text-gray-800 mb-2">${media.title}</h3>
+                        <div class="flex items-center justify-between text-sm text-gray-600">
+                            <span class="flex items-center gap-1">
+                                <i data-lucide="calendar" class="w-4 h-4"></i> ${media.date}
+                            </span>
+                            <span class="text-green-600 font-medium capitalize">${media.type}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        // Inner Admin Component Renderers
+        function renderAdminControlsLists() {
+            // Render internal pricing options mapping list row
+            const pContainer = document.getElementById('adminPriceList');
+            pContainer.innerHTML = state.priceRates.map((rate, index) => `
+                <div class="flex items-center justify-between p-4 bg-white hover:bg-gray-50 transition">
+                    <div>
+                        <p class="font-bold text-gray-800">${rate.material}</p>
+                        <p class="text-sm text-green-600 font-semibold">₹${rate.price} <span class="text-gray-500 font-normal">${rate.unit}</span></p>
+                    </div>
+                    <button type="button" onclick="deletePriceRate(${index})" class="text-gray-400 hover:text-red-600 p-2 transition">
+                        <i data-lucide="trash-2" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            `).join('');
+
+            // Render internal media gallery card rows
+            const mContainer = document.getElementById('adminMediaList');
+            mContainer.innerHTML = state.dailyMedia.map(item => `
+                <div class="border rounded-xl overflow-hidden bg-white relative shadow-sm">
+                    <img src="${item.url}" alt="${item.title}" class="w-full h-32 object-cover bg-gray-100">
+                    <div class="p-3">
+                        <p class="font-bold text-sm text-gray-800 truncate">${item.title}</p>
+                        <p class="text-xs text-gray-400">${item.date} • <span class="text-green-600 font-semibold uppercase">${item.type}</span></p>
+                    </div>
+                    <button type="button" onclick="deleteMediaItem('${item.id}')" class="absolute top-2 right-2 bg-white/90 text-gray-500 hover:text-red-600 p-2 rounded-full transition shadow-md">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        // Internal State Modification Event Handlers
+        function addNewPriceRate(e) {
+            e.preventDefault();
+            const material = document.getElementById('newMatName').value;
+            const price = document.getElementById('newMatPrice').value;
+            const unit = document.getElementById('newMatUnit').value;
+
+            state.priceRates.push({ material, price, unit });
+            
+            document.getElementById('newMatName').value = '';
+            document.getElementById('newMatPrice').value = '';
+            
+            renderPriceRates();
+            renderAdminControlsLists();
+        }
+
+        function deletePriceRate(index) {
+            state.priceRates.splice(index, 1);
+            renderPriceRates();
+            renderAdminControlsLists();
+        }
+
+        function addNewMediaItem(e) {
+            e.preventDefault();
+            const title = document.getElementById('newMediaTitle').value;
+            const url = document.getElementById('newMediaUrl').value;
+            const type = document.getElementById('newMediaType').value;
+
+            state.dailyMedia.unshift({
+                id: Date.now().toString(),
+                type,
+                url,
+                title,
+                date: new Date().toLocaleDateString()
+            });
+
+            document.getElementById('newMediaTitle').value = '';
+            document.getElementById('newMediaUrl').value = '';
+
+            renderMediaGallery();
+            renderAdminControlsLists();
+        }
+
+        function deleteMediaItem(id) {
+            state.dailyMedia = state.dailyMedia.filter(item => item.id !== id);
+            renderMediaGallery();
+            renderAdminControlsLists();
+        }
+    </script>
+</body>
+</html>
