@@ -294,12 +294,32 @@
             <div id="priceRatesGrid" class="max-w-4xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 </div>
 
-            <div id="updatePricesContainer" class="hidden text-center mt-8">
-                <button onclick="toggleAdminDashboard(true, 'prices')" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition shadow-md">
-                    Update Prices Table
-                </button>
-            </div>
-        </div>
+<div id="updatePricesContainer" class="hidden p-4 bg-white rounded-xl shadow mt-4">
+    
+    <h2 class="text-xl font-bold mb-3">Update Prices</h2>
+
+    <input 
+        type="text" 
+        id="materialInput" 
+        placeholder="Material Name (e.g., PP Plastic)" 
+        class="border p-2 w-full mb-2 rounded"
+    >
+
+    <input 
+        type="number" 
+        id="priceInput" 
+        placeholder="Price (e.g., 150)" 
+        class="border p-2 w-full mb-2 rounded"
+    >
+
+    <button 
+        onclick="addOrUpdatePrice()" 
+        class="bg-green-600 text-white px-4 py-2 rounded w-full"
+    >
+        Update Price
+    </button>
+
+</div>
     </section>
 
     <section class="py-20 bg-gray-50">
