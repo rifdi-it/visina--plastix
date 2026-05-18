@@ -656,7 +656,7 @@
                 applyAuthenticationLayoutState();
                 toggleAdminDashboard(true, 'prices');
             } else {
-                alert('Invalid credentials!);
+                alert('Invalid credentials!');
             }
         }
 
@@ -667,59 +667,53 @@
         }
 
         // Dynamically Update Page UI Components Based on Authentication
-        function applyAuthenticationLayoutState() {
-            const els = {
-                badge: document.getElementById('adminBadge'),
-                lBtn: document.getElementById('loginBtn'),
-                lBtnMob: document.getElementById('loginBtnMobile'),
-                oBtn: document.getElementById('logoutBtn'),
-                oBtnMob: document.getElementById('logoutBtnMobile'),
-                pricesUp: document.getElementById('updatePricesContainer'),
-                galleryUp: document.getElementById('manageGalleryContainer'),
-                floatBtn: document.getElementById('floatingAdminBtn')
-            };
+function applyAuthenticationLayoutState() {
+    const els = {
+        badge: document.getElementById('adminBadge'),
+        lBtn: document.getElementById('loginBtn'),
+        lBtnMob: document.getElementById('loginBtnMobile'),
+        oBtn: document.getElementById('logoutBtn'),
+        oBtnMob: document.getElementById('logoutBtnMobile'),
+        pricesUp: document.getElementById('updatePricesContainer'),
+        galleryUp: document.getElementById('manageGalleryContainer'),
+        floatBtn: document.getElementById('floatingAdminBtn')
+    };
 
-            if (state.isAuthenticated) {
-                els.badge.classList.remove('hidden');
-                els.lBtn.classList.add('hidden');
-                els.lBtnMob.classList.add('hidden');
-                els.oBtn.classList.remove('hidden');
-                els.oBtnMob.classList.remove('hidden');
-                els.pricesUp.classList.remove('hidden');
-                els.galleryUp.classList.remove('hidden');
-                els.floatBtn.classList.remove('hidden');
-            } else {
-                els.badge.classList.add('hidden');
-                els.lBtn.classList.remove('hidden');
-                els.lBtnMob.classList.remove('hidden');
-                els.oBtn.classList.add('hidden');
-                els.oBtnMob.classList.add('hidden');
-                els.pricesUp.classList.add('hidden');
-                els.galleryUp.classList.add('hidden');
-                els.floatBtn.classList.add('hidden');
-            }
-        }
+    if (state.isAuthenticated) {
+        els.badge.classList.remove('hidden');
+        els.lBtn.classList.add('hidden');
+        els.lBtnMob.classList.add('hidden');
+        els.oBtn.classList.remove('hidden');
+        els.oBtnMob.classList.remove('hidden');
+        els.pricesUp.classList.remove('hidden');
+        els.galleryUp.classList.remove('hidden');
+        els.floatBtn.classList.remove('hidden');
+    } else {
+        els.badge.classList.add('hidden');
+        els.lBtn.classList.remove('hidden');
+        els.lBtnMob.classList.remove('hidden');
+        els.oBtn.classList.add('hidden');
+        els.oBtnMob.classList.add('hidden');
+        els.pricesUp.classList.add('hidden');
+        els.galleryUp.classList.add('hidden');
+        els.floatBtn.classList.add('hidden');
+    }
+}
 
         // Public Data Model Rendering Pipelines
-        function renderPriceRates() {
-            const container = document.getElementById('priceRatesGrid');
-            container.innerHTML = state.priceRates.map(rate => `
-                <div class="bg-gradient-to-br from-green-50 to-white border-2 border-green-100 rounded-xl p-6 hover:shadow-lg transition">
-                    <div class="flex items-start justify-between mb-4">
-                        <div class="bg-green-100 p-3 rounded-lg">
-                            <i data-lucide="dollar-sign" class="text-green-600 w-7 h-7"></i>
-                        </div>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">${rate.material}</h3>
-                    <div class="flex items-baseline gap-2">
-                        <span class="text-3xl font-bold text-green-600">₹${rate.price}</span>
-                        <span class="text-gray-600">${rate.unit}</span>
-                    </div>
-                </div>
-            `).join('');
-            lucide.createIcons();
-        }
+function renderPriceRates() {
+    const grid = document.getElementById('priceRatesGrid');
+    grid.innerHTML = '';
 
+    state.priceRates.forEach(item => {
+        grid.innerHTML += `
+        <div class="bg-gray-50 p-5 rounded-xl shadow">
+            <h3 class="font-bold text-lg">${item.material}</h3>
+            <p class="text-green-600 text-xl font-bold">Rs. ${item.price}</p>
+            <p class="text-gray-500">${item.unit}</p>
+        </div>`;
+    });
+}
         function renderMediaGallery() {
             const container = document.getElementById('mediaGalleryGrid');
             container.innerHTML = state.dailyMedia.map(media => `
