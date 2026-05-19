@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://rifdi-it.github.io/visina--plastix/sitemap.xml
